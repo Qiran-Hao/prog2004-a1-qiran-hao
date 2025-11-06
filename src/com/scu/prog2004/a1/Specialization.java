@@ -1,8 +1,8 @@
 package com.scu.prog2004.a1;
 
 /**
- * 健康从业者的专业领域枚举，限定所有合法专业，避免字符串类型错误。
- * 包含中英文描述，增强展示可读性。
+ * Enumerate the professional fields of health practitioners, limit all legal specialties, and avoid string type errors.
+ * It includes both Chinese and English descriptions to enhance the readability of the display.
  */
 public enum Specialization {
     GENERAL_MEDICINE("General Medicine", "全科医学"),  // 全科
@@ -13,21 +13,21 @@ public enum Specialization {
     private final String chineseDesc;  // 中文描述
 
     /**
-     * 枚举构造器（默认私有）
-     * @param englishDesc 英文专业名
-     * @param chineseDesc 中文专业名
+     * Enumeration constructor (Private by default
+     * @param englishDesc English major name
+     * @param chineseDesc Chinese major name
      */
     Specialization(String englishDesc, String chineseDesc) {
         this.englishDesc = englishDesc;
         this.chineseDesc = chineseDesc;
     }
 
-    // Getter（无Setter，确保枚举不可变）
+    // GetterChinese major name
     public String getEnglishDesc() { return englishDesc; }
     public String getChineseDesc() { return chineseDesc; }
 
     /**
-     * 重写toString，默认返回英文描述（便于打印）
+     * Rewrite toString. By default, it returns an English description (for easy printing).
      */
     @Override
     public String toString() {
