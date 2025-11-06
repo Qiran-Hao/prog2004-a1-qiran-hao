@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * 健康服务预约系统主类（支持模式自由切换）
- * 功能：自动测试模式与交互式模式可反复切换，直至主动退出系统
- * 符合OOP四大原则、异常处理规范及代码可读性要求
+ * Main class of Health Service reservation System (Supporting free mode switching)
+ * Function: The automatic test mode and interactive mode can be switched repeatedly until the system exits actively
  */
 public class AssignmentOne {
 
     /**
-     * 创建预约（含参数验证与异常处理）
-     * @param appointments 存储预约的集合（非null）
-     * @param patientName 患者姓名（非空）
-     * @param mobile 患者手机号（04开头10位数字）
-     * @param timeSlot 预约时间（HH:mm格式）
-     * @param doctor 预约的医生（非null）
-     * @return true=创建成功；false=创建失败
+     * Create an appointment (including parameter verification and exception handling)
+     * @param appointments Store the collection of reservations (not null)
+     * @param patientName Patient's name (non-empty)
+     * @param mobile Patient's mobile phone number (10 digits starting with 04)
+     * @param timeSlot Appointment time (HH:mm format)
+     * @param doctor The doctor who made the appointment (not null）
+     * @return true= Creation successful; false= Creation failed
      */
     public static boolean createAppointment(
             ArrayList<Appointment> appointments,
@@ -38,8 +37,8 @@ public class AssignmentOne {
     }
 
     /**
-     * 打印所有预约详情（体现多态传递）
-     * @param appointments 存储预约的集合（可为null或空）
+     * Print all reservation details (reflecting polymorphic transmission)
+     * @param appointments Store the set of reservations (which can be null or empty)
      */
     public static void printAppointments(ArrayList<Appointment> appointments) {
         System.out.println("\n=== All Appointments ===");
@@ -54,10 +53,10 @@ public class AssignmentOne {
     }
 
     /**
-     * 取消预约（通过手机号匹配）
-     * @param appointments 存储预约的集合（非null）
-     * @param mobile 患者手机号（用于匹配）
-     * @return true=取消成功；false=未找到对应预约
+     * Cancel the reservation (through mobile phone number matching)
+     * @param appointments Store the collection of reservations (not null)
+     * @param mobile Patient's mobile phone number (for matching)
+     * @return true= Cancellation successful; false= No corresponding appointment found
      */
     public static boolean cancelAppointment(ArrayList<Appointment> appointments, String mobile) {
         if (appointments == null) {
@@ -79,15 +78,15 @@ public class AssignmentOne {
         System.out.println("1. Create New Appointment");
         System.out.println("2. Print All Appointments");
         System.out.println("3. Cancel Appointment (by mobile)");
-        System.out.println("4. Return to Mode Selection"); // 修改为返回模式选择
+        System.out.println("4. Return to Mode Selection"); // Modify it to return mode selection
         System.out.println("======================================");
         System.out.print("Please select an option (1-4): ");
     }
 
     /**
-     * 选择预约的医生（交互式模式辅助方法）
-     * @param scanner 输入扫描器（非null）
-     * @return 选中的医生对象（非null）
+     * Select the doctor to make an appointment with (interactive mode assistance method
+     * @param scanner Input scanner (not null)
+     * @return The selected doctor object (not null)
      */
     private static HealthProfessional selectDoctor(Scanner scanner) {
         System.out.println("\n--- Available Doctors ---");
@@ -98,7 +97,7 @@ public class AssignmentOne {
         System.out.print("Select a doctor (1-4): ");
 
         int choice = scanner.nextInt();
-        scanner.nextLine(); // 吸收换行符
+        scanner.nextLine(); // Absorb line breaks
 
         switch (choice) {
             case 1:
@@ -121,13 +120,13 @@ public class AssignmentOne {
     }
 
     /**
-     * 自动测试模式：执行核心功能测试后返回模式选择界面
-     * @param appointments 存储预约的集合（非null）
+     * Automatic test mode: After conducting core function tests, return to the mode selection interface
+     * @param appointments Store the collection of reservations (not null)
      */
     private static void runAutoTest(ArrayList<Appointment> appointments) {
         System.out.println("\n=== Running Auto-Test Mode ===");
         try {
-            // 创建3个全科医生 + 2个心脏病专家（多态体现）
+            // Create 3 general practitioners and 2 cardiologists (polymorphic manifestations)
             HealthProfessional gp1 = new GeneralPractitioner(101, "Dr. Emily Smith",
                     Specialization.GENERAL_MEDICINE, true);
             HealthProfessional gp2 = new GeneralPractitioner(102, "Dr. James Brown",
@@ -139,7 +138,7 @@ public class AssignmentOne {
             HealthProfessional cardio2 = new Cardiologist(202, "Dr. Sarah Chen",
                     Specialization.CARDIOLOGY, "Cardiac Electrophysiology");
 
-            // 打印所有医生详情（验证多态打印）
+            // Print all doctor details (verify polymorphic printing)
             System.out.println("\n--- All Health Professionals ---");
             gp1.printDetails();
             gp2.printDetails();
@@ -148,58 +147,58 @@ public class AssignmentOne {
             cardio2.printDetails();
             System.out.println("------------------------------");
 
-            // 创建4个合法预约 + 1个非法预约（异常测试）
+            // Create 4 legal appointments and 1 illegal appointment (abnormal test)
             createAppointment(appointments, "John Doe", "0412345678", "09:30", gp1);
             createAppointment(appointments, "Mike Taylor", "0423456789", "11:00", gp2);
             createAppointment(appointments, "Jane Smith", "0487654321", "14:00", cardio1);
             createAppointment(appointments, "Emily Davis", "0498765432", "15:30", cardio2);
             createAppointment(appointments, "Bob Wilson", "12345", "10:00", gp3); // 非法手机号
 
-            // 打印预约（验证创建结果）
+            // Print the reservation (verify the creation result)
             printAppointments(appointments);
 
-            // 取消预约（验证集合操作）
+            // Cancel the reservation (verification collection operation)
             System.out.println("\n--- Cancelling appointment for 0412345678 ---");
             cancelAppointment(appointments, "0412345678");
 
-            // 再次打印（验证取消结果）
+            // Print again (verify the cancellation result)
             printAppointments(appointments);
             System.out.println("\n--- Auto-Test Completed ---");
 
         } catch (HealthcareException e) {
             System.out.println("❌ Auto-test failed: " + e.getMessage());
         }
-        // 执行完毕后自动返回模式选择界面
+        // After execution is completed, it will automatically return to the mode selection interface
     }
 
     /**
-     * 交互式模式：手动操作后可返回模式选择界面
-     * @param appointments 存储预约的集合（非null）
-     * @param scanner 输入扫描器（非null）
+     * Interactive mode: After manual operation, you can return to the mode selection interface
+     * @param appointments Store the collection of reservations (not null)
+     * @param scanner Input scanner (not null)
      */
     private static void runInteractiveMode(ArrayList<Appointment> appointments, Scanner scanner) {
         System.out.println("\n=== Entering Interactive Mode ===");
         System.out.println("(Select 4 to return to mode selection)");
 
-        while (true) { // 交互式内部循环
+        while (true) { // Interactive internal loop
             showMenu();
             int choice;
             try {
                 choice = scanner.nextInt();
-                scanner.nextLine(); // 吸收换行符
+                scanner.nextLine(); // Absorb line breaks
             } catch (Exception e) {
                 System.out.println("⚠️ Invalid input, please enter 1-4.");
-                scanner.nextLine(); // 清除错误输入
+                scanner.nextLine(); // Clear incorrect input
                 continue;
             }
 
             switch (choice) {
-                case 1: // 创建新预约
+                case 1: // Create a new appointment
                     System.out.println("\n--- Create New Appointment ---");
                     System.out.print("Enter patient name: ");
                     String name = scanner.nextLine();
 
-                    System.out.print("Enter patient mobile (04xxxxxxx): ");
+                    System.out.print("Enter patient mobile (04xxxxxxxx): ");
                     String mobile = scanner.nextLine();
 
                     System.out.print("Enter appointment time (HH:mm): ");
@@ -209,20 +208,20 @@ public class AssignmentOne {
                     createAppointment(appointments, name, mobile, time, doctor);
                     break;
 
-                case 2: // 打印所有预约
+                case 2: // Print all appointments
                     printAppointments(appointments);
                     break;
 
-                case 3: // 取消预约
+                case 3: // Cancel the reservation
                     System.out.println("\n--- Cancel Appointment ---");
                     System.out.print("Enter patient mobile to cancel: ");
                     String cancelMobile = scanner.nextLine();
                     cancelAppointment(appointments, cancelMobile);
                     break;
 
-                case 4: // 返回模式选择界面
+                case 4: // Return to the mode selection interface
                     System.out.println("👋 Exiting Interactive Mode. Returning to main menu...");
-                    return; // 跳出当前方法，回到外层循环
+                    return; // Jump out of the current method and return to the outer loop
 
                 default:
                     System.out.println("❌ Invalid option. Please enter 1-4.");
@@ -231,43 +230,43 @@ public class AssignmentOne {
     }
 
     /**
-     * 主方法：外层循环实现模式自由切换
-     * @param args 命令行参数（未使用）
+     * The main method: The outer loop realizes the free switching of modes
+     * @param args Command-line parameters (not used）
      */
     public static void main(String[] args) {
         ArrayList<Appointment> appointments = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
-        // 外层循环：持续显示模式选择界面，直至选择退出系统
+        // Outer loop: Continuously display the mode selection interface until you choose to exit the system
         while (true) {
             System.out.println("\n=== Health Service Booking System ===");
             System.out.println("1. Run Auto-Test (verify core functions)");
             System.out.println("2. Enter Interactive Mode (manual operation)");
-            System.out.println("3. Exit System"); // 新增完全退出选项
+            System.out.println("3. Exit System"); // A new option to completely exit has been added
             System.out.print("Select mode (1-3): ");
 
             int mode;
             try {
                 mode = scanner.nextInt();
-                scanner.nextLine(); // 吸收换行符
+                scanner.nextLine(); // Absorb line breaks
             } catch (Exception e) {
                 System.out.println("⚠️ Invalid input, please enter 1-3.");
-                scanner.nextLine(); // 清除错误输入
-                continue; // 重新显示选择界面
+                scanner.nextLine(); // Clear incorrect input
+                continue; // Re-display the selection interface
             }
 
-            // 根据选择执行对应逻辑
+            // Execute the corresponding logic according to the selection
             switch (mode) {
                 case 1:
-                    runAutoTest(appointments); // 自动测试后返回循环
+                    runAutoTest(appointments); // Return to the loop after automatic testing
                     break;
                 case 2:
-                    runInteractiveMode(appointments, scanner); // 手动模式返回后继续循环
+                    runInteractiveMode(appointments, scanner); // Continue the loop after the manual mode returns
                     break;
-                case 3: // 完全退出系统
+                case 3: // Completely exit the system
                     System.out.println("👋 Exiting system. Thank you!");
                     scanner.close();
-                    System.exit(0); // 终止程序
+                    System.exit(0); // Terminate the procedure
                 default:
                     System.out.println("❌ Invalid option. Please enter 1-3.");
             }
